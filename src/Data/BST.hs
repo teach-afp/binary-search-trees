@@ -13,4 +13,6 @@ import Data.BST.Internal as Exports
   -- * Deletion
   , delete
   , split
+  -- * Query
+  , member
   )

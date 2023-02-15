@@ -41,6 +41,22 @@ fromList :: Ord a
   -> BST a -- ^ Tree, not containing duplicates.
 fromList = foldr insert empty
 
+-- | Query for membership.
+member :: Ord a
+  => a      -- ^ Element to be tested for membership.
+  -> BST a  -- ^ Tree to look for element.
+  -> Bool   -- ^ Is element member of tree?
+member a = go
+  where
+  go = \case
+    Leaf ->
+      False
+    Node l p r ->
+      case compare a p of
+        LT -> go l
+        EQ -> True
+        GT -> go r
+
 -- | Split a binary search tree along a new pivot element.
 split :: Ord a
   => a              -- ^ Pivot element.
