@@ -24,3 +24,25 @@ library
 
   build-depends:
     , base
+
+test-suite QuickCheck
+  import: common-build-parameters
+
+  type: exitcode-stdio-1.0
+
+  hs-source-dirs:
+    test
+
+  main-is:
+    QuickCheckTests.hs
+
+  build-depends:
+    , base
+    , binary-search-tree
+    , QuickCheck
+    , tasty
+    , tasty-quickcheck
+
+  ghc-options:
+    -Wno-orphans
+    -Wno-missing-signatures
