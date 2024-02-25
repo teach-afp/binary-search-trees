@@ -1,3 +1,5 @@
+
+
 module Data.BST.Internal where
 
 -- | Binary search trees: ordered, not necessarily balanced trees.
@@ -10,6 +12,9 @@ data BST a
       a        -- ^ Node label (pivot element).
       (BST a)  -- ^ Right subtree, with element ≥ label.
   deriving Show
+
+---------------------------------------------------------------------------
+-- API
 
 -- | Empty binary search tree.
 empty :: BST a
@@ -99,8 +104,30 @@ delete a = go
     Node l p r ->
       case compare a p of
         LT -> Node (go l) p r
-        EQ -> union l r
+        EQ -> join l r
         GT -> Node l p (go r)
+
+---------------------------------------------------------------------------
+-- Internal functions
+
+-- | Merge two binary search trees where each element of the first tree
+--   is smaller or equal each element of the second tree.
+--
+--   @'join' t1 t2 == 'union' t1 t2@ but implemented without comparisons.
+join :: Ord a
+  => BST a
+  -> BST a
+  -> BST a
+join = curry $ \case
+  (Leaf, t2) ->
+    t2
+  (t1, Leaf) ->
+    t1
+  (Node l1 p1 r1, Node l2 p2 r2) ->
+    Node l1 p1 (Node (join r1 l2) p2 r2)
+
+---------------------------------------------------------------------------
+-- Instances
 
 instance Ord a => Semigroup (BST a) where
   (<>) = union

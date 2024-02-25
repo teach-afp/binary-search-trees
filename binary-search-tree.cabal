@@ -6,6 +6,7 @@ common common-build-parameters
   default-language:
     Haskell2010
   default-extensions:
+    BlockArguments
     LambdaCase
     InstanceSigs
   ghc-options:
@@ -23,7 +24,7 @@ library
     Data.BST.Internal
 
   build-depends:
-    , base
+    , base                >= 4.12    && < 5
 
 test-suite QuickCheck
   import: common-build-parameters
@@ -37,11 +38,13 @@ test-suite QuickCheck
     QuickCheckTests.hs
 
   build-depends:
+    -- inherited bounds
     , base
     , binary-search-tree
-    , QuickCheck
-    , tasty
-    , tasty-quickcheck
+    -- new dependencies, need bounds
+    , QuickCheck          >= 2.11.3  && < 2.15
+    , tasty               >= 1.1.0.4 && < 1.5
+    , tasty-quickcheck    >= 0.10    && < 0.11
 
   ghc-options:
     -Wno-orphans
