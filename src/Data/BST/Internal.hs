@@ -104,7 +104,7 @@ split p = go
       case compare p a of
         LT -> (l', Node r' a r) where (l', r') = go l
         EQ -> (l, r)
-        GT -> (Node l a l' , r) where (l', r') = go r
+        GT -> (Node l a l', r') where (l', r') = go r
 
 -- | Merge two binary search trees.
 --
