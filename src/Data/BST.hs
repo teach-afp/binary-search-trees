@@ -1,8 +1,6 @@
 -- | Sets implemented as binary search trees, not necessarily balanced.
 
-module Data.BST (module Exports) where
-
-import Data.BST.Internal as Exports
+module Data.BST
   ( BST
   -- * Construction
   , empty
@@ -16,3 +14,6 @@ import Data.BST.Internal as Exports
   -- * Query
   , member
   )
+where
+
+import Data.BST.Internal

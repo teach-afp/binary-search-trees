@@ -11,7 +11,21 @@ import Test.Tasty            (TestTree, defaultMain)
 import Test.Tasty.QuickCheck (testProperties)
 
 instance (Arbitrary a, Ord a) => Arbitrary (BST a) where
+
+  -- Generate random BSTs.
+  arbitrary :: Gen (BST a)
   arbitrary = fromList <$> arbitrary
+
+  -- Shrink a tree to smaller trees, to reduce counterexamples.
+  shrink :: BST a -> [BST a]
+  shrink = \case
+    Leaf -> []
+    Node l a r -> concat
+      [ [ Leaf ] -- The empty tree (optional, aggressive shrinking).
+      , [ l, r ] -- The immediate subtrees.
+      , [ Node l' a' r' | (l', a', r') <- shrink (l, a, r) ]
+                 -- Shrinking in the subtrees.
+      ]
 
 instance CoArbitrary a => CoArbitrary (BST a) where
   coarbitrary = coarbitrary . toList

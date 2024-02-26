@@ -2,6 +2,13 @@
 
 module Data.BST.Internal where
 
+-- Setup for doctest:
+-- The library code does not use 'toList', but the doctest code does.
+-- We can add doctest imports in the special @$setup@ comment.
+
+-- $setup
+-- >>> import Data.Foldable (toList)
+
 -- | Binary search trees: ordered, not necessarily balanced trees.
 data BST a
     -- | Empty search tree.
@@ -25,6 +32,17 @@ singleton :: a -> BST a
 singleton a = Node Leaf a Leaf
 
 -- | Insert into binary search tree.
+--
+-- Example:
+--
+-- >>> toList $ insert "baz" $ fromList ["bar","foo"]
+-- ["bar","baz","foo"]
+--
+-- Nothing changes if element is already present:
+--
+-- >>> toList $ insert "baz" $ fromList ["bar","baz","foo"]
+-- ["bar","baz","foo"]
+--
 insert :: Ord a
   => a       -- ^ Element to be inserted.
   -> BST a   -- ^ Tree to be inserted into.
@@ -47,6 +65,15 @@ fromList :: Ord a
 fromList = foldr insert empty
 
 -- | Query for membership.
+--
+-- Example (success):
+-- >>> member "foo" $ fromList ["bar","baz","foo"]
+-- True
+--
+-- Example (failure):
+-- >>> member "fool" $ fromList ["bar","baz","foo"]
+-- False
+--
 member :: Ord a
   => a      -- ^ Element to be tested for membership.
   -> BST a  -- ^ Tree to look for element.
@@ -77,9 +104,15 @@ split p = go
       case compare p a of
         LT -> (l', Node r' a r) where (l', r') = go l
         EQ -> (l, r)
-        GT -> (Node l a l', r') where (l', r') = go r
+        GT -> (Node l a l' , r) where (l', r') = go r
 
 -- | Merge two binary search trees.
+--
+-- Example:
+--
+-- >>> toList $ union (fromList ["cat","dog"]) (fromList ["cat","tiger","wolf"])
+-- ["cat","dog","tiger","wolf"]
+--
 union :: Ord a
   => BST a  -- ^ Tree to be merged in.
   -> BST a  -- ^ Tree to be merged into.
@@ -92,6 +125,16 @@ union t = \case
     Node (union l' l) p (union r' r) where (l', r') = split p t
 
 -- | Delete from a binary search tree.
+--
+-- Example (element present):
+--
+-- >>> toList $ delete "foo" $ fromList ["bar","baz","foo"]
+-- ["bar","baz"]
+--
+-- Example (element absent):
+-- >>> toList $ delete "fool" $ fromList ["bar","baz","foo"]
+-- ["bar","baz","foo"]
+--
 delete :: Ord a
   => a      -- ^ Element to be deleted.
   -> BST a  -- ^ Tree to delete from.

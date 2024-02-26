@@ -13,6 +13,9 @@ common common-build-parameters
     -Wall
     -Wcompat
 
+------------------------------------------------------------------
+-- Library
+
 library
   import: common-build-parameters
 
@@ -26,7 +29,30 @@ library
   build-depends:
     , base                >= 4.12    && < 5
 
-test-suite QuickCheck
+------------------------------------------------------------------
+-- Testsuites
+
+test-suite unittests
+  import: common-build-parameters
+
+  type: exitcode-stdio-1.0
+
+  hs-source-dirs:
+    test
+
+  main-is:
+    UnitTests.hs
+
+  build-depends:
+    -- inherited bounds
+    , base
+    , binary-search-tree
+    -- new dependencies, need bounds
+    , tasty               >= 1.1.0.4 && < 1.6
+    , tasty-hunit         >= 0.10    && < 0.11
+
+
+test-suite quickcheck
   import: common-build-parameters
 
   type: exitcode-stdio-1.0
@@ -43,9 +69,27 @@ test-suite QuickCheck
     , binary-search-tree
     -- new dependencies, need bounds
     , QuickCheck          >= 2.11.3  && < 2.15
-    , tasty               >= 1.1.0.4 && < 1.5
+    , tasty               >= 1.1.0.4 && < 1.6
     , tasty-quickcheck    >= 0.10    && < 0.11
 
   ghc-options:
     -Wno-orphans
     -Wno-missing-signatures
+
+
+test-suite doctests
+  import: common-build-parameters
+
+  type: exitcode-stdio-1.0
+
+  hs-source-dirs:
+    test
+
+  main-is:
+    DocTests.hs
+
+  build-depends:
+    -- inherited bounds
+    , base
+    -- new dependencies, need bounds
+    , doctest >= 0.22 && < 0.23
