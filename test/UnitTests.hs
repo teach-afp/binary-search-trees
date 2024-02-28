@@ -16,5 +16,5 @@ main = defaultMain tests
 tests :: TestTree
 tests = testCase "split" $ do
   assertEqual ""
-    (bimap toList toList $ split "dog" $ fromList ["cat", "dog", "tiger", "wolf"])
     (["cat"], ["tiger", "wolf"])
+    (bimap toList toList $ split "dog" $ fromList ["cat", "dog", "tiger", "wolf"])
