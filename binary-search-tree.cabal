@@ -25,21 +25,35 @@ common common-build-parameters
     -Wcompat
 
 ------------------------------------------------------------------
--- Library
+-- Internal library containing the implementation
 
-library
+library bst-internal
   import: common-build-parameters
 
   hs-source-dirs:
     src
 
   exposed-modules:
-    Data.BST
-  other-modules:
     Data.BST.Internal
 
   build-depends:
     , base                >= 4.12    && < 5
+
+------------------------------------------------------------------
+-- Library exporting the API
+
+library
+  import: common-build-parameters
+
+  hs-source-dirs:
+    lib
+
+  exposed-modules:
+    Data.BST
+
+  build-depends:
+    , base
+    , bst-internal
 
 ------------------------------------------------------------------
 -- Testsuites
@@ -51,17 +65,14 @@ test-suite unittests
 
   hs-source-dirs:
     test
-    src
 
   main-is:
     UnitTests.hs
 
-  other-modules:
-    Data.BST.Internal
-
   build-depends:
     -- inherited bounds
     , base
+    , bst-internal
     -- new dependencies, need bounds
     , tasty               >= 1.1.0.4 && < 1.6
     , tasty-hunit         >= 0.10    && < 0.11
@@ -74,17 +85,14 @@ test-suite quickcheck
 
   hs-source-dirs:
     test
-    src
 
   main-is:
     QuickCheckTests.hs
 
-  other-modules:
-    Data.BST.Internal
-
   build-depends:
     -- inherited bounds
     , base
+    , bst-internal
     -- new dependencies, need bounds
     , QuickCheck          >= 2.11.3  && < 2.15
     , tasty               >= 1.1.0.4 && < 1.6
