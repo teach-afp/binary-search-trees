@@ -44,7 +44,7 @@ jobs:
       id:   cache
       uses: actions/cache/restore@v4
       env:
-        key: ${{ matrix.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}
+        key: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}
       with:
         key: ${{ env.key }}-hash-${{ github.sha }}
         restore-keys: ${{ env.key }}
