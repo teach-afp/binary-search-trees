@@ -35,6 +35,7 @@ library
 
   exposed-modules:
     Data.BST
+  other-modules:
     Data.BST.Internal
 
   build-depends:
@@ -50,14 +51,17 @@ test-suite unittests
 
   hs-source-dirs:
     test
+    src
 
   main-is:
     UnitTests.hs
 
+  other-modules:
+    Data.BST.Internal
+
   build-depends:
     -- inherited bounds
     , base
-    , binary-search-tree
     -- new dependencies, need bounds
     , tasty               >= 1.1.0.4 && < 1.6
     , tasty-hunit         >= 0.10    && < 0.11
@@ -70,14 +74,17 @@ test-suite quickcheck
 
   hs-source-dirs:
     test
+    src
 
   main-is:
     QuickCheckTests.hs
 
+  other-modules:
+    Data.BST.Internal
+
   build-depends:
     -- inherited bounds
     , base
-    , binary-search-tree
     -- new dependencies, need bounds
     , QuickCheck          >= 2.11.3  && < 2.15
     , tasty               >= 1.1.0.4 && < 1.6
