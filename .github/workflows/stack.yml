@@ -1,0 +1,72 @@
+name: Stack
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Stack ${{ matrix.ghc }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        ghc: ['9.8.1', '9.6.4', '9.4.8', '8.6.5']
+        include:
+        - os: windows-latest
+          ghc: '9.8.1'
+        - os: macos-latest
+          ghc: '9.8.1'
+
+    steps:
+
+    - name: Checkout sources from repository
+      uses: actions/checkout@v4
+
+    - name: Setup haskell for use with stack
+      id:   setup
+      uses: haskell-actions/setup@v2
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        enable-stack: true
+        cabal-update: false
+
+    - name: Restore cache
+      id:   cache
+      uses: actions/cache/restore@v4
+      env:
+        key: ${{ matrix.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}
+      with:
+        key: ${{ env.key }}-hash-${{ github.sha }}
+        restore-keys: ${{ env.key }}
+        path: |
+          ${{ steps.setup.outputs.stack-root }}
+          .stack-work
+
+    - name: Build
+      run:  stack --system-ghc --stack-yaml=stack-${{ matrix.ghc }}.yaml build
+
+    - name: Test
+      run:  stack --system-ghc --stack-yaml=stack-${{ matrix.ghc }}.yaml test
+
+    - name: Build docs
+      run:  stack --system-ghc --stack-yaml=stack-${{ matrix.ghc }}.yaml haddock
+
+    - name: Save cache
+      if:   always()
+        ## Save cache regardless of whether on of the steps failed
+      uses: actions/cache/save@v4
+      with:
+        key: ${{ steps.cache.outputs.cache-primary-key }}
+        path: |
+          ${{ steps.setup.outputs.stack-root }}
+          .stack-work

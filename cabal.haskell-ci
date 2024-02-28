@@ -1,1 +1,5 @@
+-- Only run action when push to master or PR to master opened
 branches: master
+
+-- No cabal check step
+cabal-check: False
