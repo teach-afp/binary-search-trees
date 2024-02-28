@@ -1,0 +1,35 @@
+name: Simple Stack CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Stack Simple CI
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout sources from repository
+      uses: actions/checkout@v4
+
+    - name: Setup haskell for use with stack
+      uses: haskell-actions/setup@v2
+      with:
+        ghc-version: '9.4.8'
+        enable-stack: true
+        cabal-update: false
+
+    - name: Build
+      run:  stack --system-ghc --stack-yaml=stack-9.4.8.yaml build
+
+    - name: Test
+      run:  stack --system-ghc --stack-yaml=stack-9.4.8.yaml test
+
+    - name: Build docs
+      run:  stack --system-ghc --stack-yaml=stack-9.4.8.yaml haddock
