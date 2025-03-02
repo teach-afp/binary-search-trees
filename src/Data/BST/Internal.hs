@@ -1,5 +1,4 @@
 
-
 module Data.BST.Internal where
 
 -- Setup for doctest:
@@ -67,10 +66,12 @@ fromList = foldr insert empty
 -- | Query for membership.
 --
 -- Example (success):
+--
 -- >>> member "foo" $ fromList ["bar","baz","foo"]
 -- True
 --
 -- Example (failure):
+--
 -- >>> member "fool" $ fromList ["bar","baz","foo"]
 -- False
 --
@@ -132,6 +133,7 @@ union t = \case
 -- ["bar","baz"]
 --
 -- Example (element absent):
+--
 -- >>> toList $ delete "fool" $ fromList ["bar","baz","foo"]
 -- ["bar","baz","foo"]
 --
