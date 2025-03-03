@@ -14,7 +14,10 @@ main :: IO ()
 main = defaultMain tests
 
 tests :: TestTree
-tests = testCase "split" $ do
-  assertEqual ""
-    (["cat"], ["tiger", "wolf"])
-    (bimap toList toList $ split "dog" $ fromList ["cat", "dog", "tiger", "wolf"])
+tests = testCase "split" $ assertEqual prefix actual expect
+  where
+    prefix = ""
+    actual = bimap toList toList $
+             split "dog" $
+             fromList ["cat", "dog", "tiger", "wolf"]
+    expect = (["cat"], ["tiger", "wolf"])
