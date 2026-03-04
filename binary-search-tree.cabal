@@ -3,9 +3,10 @@ name: binary-search-tree
 version: 0.0.0.0
 
 tested-with:
-  GHC == 9.10.1
+  GHC == 9.12.2
+  GHC == 9.10.3
   GHC == 9.8.4
-  GHC == 9.6.6
+  GHC == 9.6.7
   GHC == 9.4.8
   GHC == 9.2.8
   GHC == 9.0.2
@@ -94,9 +95,9 @@ test-suite quickcheck
     , base
     , bst-internal
     -- new dependencies, need bounds
-    , QuickCheck          >= 2.11.3  && < 2.16
-    , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-quickcheck    >= 0.10    && < 0.12
+    , QuickCheck          >= 2.13.2    && < 2.19
+    , tasty               >= 1.2.3     && < 1.6
+    , tasty-quickcheck    >= 0.10.1.1  && < 0.12
 
   ghc-options:
     -Wno-orphans
@@ -118,4 +119,4 @@ test-suite doctests
     -- inherited bounds
     , base
     -- new dependencies, need bounds
-    , doctest >= 0.16 && < 0.25
+    , doctest >= 0.16.2 && < 0.25
