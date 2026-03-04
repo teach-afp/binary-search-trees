@@ -3,3 +3,6 @@ branches: master
 
 -- No cabal check step
 cabal-check: False
+
+-- haskell-ci github binary-search-tree.cabal
+-- haskell-ci regenerate
