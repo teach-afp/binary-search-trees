@@ -91,6 +91,10 @@ member a = go
         GT -> go r
 
 -- | Split a binary search tree along a new pivot element.
+--
+-- Example:
+-- >>> split "dog" $ fromList ["cat","dog","tiger","wolf"]
+-- (Node Leaf "cat" Leaf,Node (Node Leaf "tiger" Leaf) "wolf" Leaf)
 split :: Ord a
   => a              -- ^ Pivot element.
   -> BST a          -- ^ Tree to be split along pivot element.

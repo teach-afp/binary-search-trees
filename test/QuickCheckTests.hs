@@ -7,6 +7,7 @@ import Data.BST.Internal
 import Data.Foldable         (toList)
 import Data.Function         (on)
 import Test.QuickCheck
+    ( allProperties, Arbitrary(..), CoArbitrary(..), Gen )
 import Test.Tasty            (TestTree, defaultMain)
 import Test.Tasty.QuickCheck (testProperties)
 
