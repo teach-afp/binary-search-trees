@@ -20,17 +20,17 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        ghc: ['9.10.1', '9.8.4', '9.6.6', '9.4.8', '8.6.5']
+        ghc: ['9.12.2', '9.10.3', '9.8.4', '9.6.7', '8.6.5']
         include:
         - os: windows-latest
-          ghc: '9.10.1'
+          ghc: '9.12.2'
         - os: macos-latest
-          ghc: '9.10.1'
+          ghc: '9.12.2'
 
     steps:
 
     - name: Checkout sources from repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Setup haskell for use with stack
       id:   setup
@@ -42,7 +42,7 @@ jobs:
 
     - name: Restore cache
       id:   cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       env:
         key: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}
       with:
@@ -64,7 +64,7 @@ jobs:
     - name: Save cache
       if:   always()
         ## Save cache regardless of whether on of the steps failed
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v5
       with:
         key: ${{ steps.cache.outputs.cache-primary-key }}
         path: |

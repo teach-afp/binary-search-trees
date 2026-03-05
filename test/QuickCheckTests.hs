@@ -63,7 +63,7 @@ prop_bounded s = bounded Nothing s Nothing
 -- Some properties of basic set operations
 
 prop_member_insert x s = member x (insert x s)
-prop_member_delete x s = not $ member x (delete x s)
+prop_member_delete x s = not (member x (delete x s))
 
 -- Insertion and deletion are idempotent (also with each other)
 prop_insert_insert x s = insert x (insert x s) ~~ insert x s
