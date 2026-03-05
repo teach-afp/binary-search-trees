@@ -2,7 +2,7 @@
 
 module Main where
 
-import Data.BST.Internal
+import Data.BST
 
 import Data.Bifunctor        (bimap)
 import Data.Foldable         (toList)
